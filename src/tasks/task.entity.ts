@@ -1,9 +1,12 @@
+import { Exclude } from 'class-transformer';
+import { User } from 'src/auth/user.entity';
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
 import { TaskStatus } from './task-status.enum';
 
@@ -26,4 +29,8 @@ export class Task {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @ManyToOne((_type) => User, (user) => user.tasks, { eager: false })
+  @Exclude({ toPlainOnly: true })
+  user: User;
 }
